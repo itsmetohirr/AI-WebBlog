@@ -1,22 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Blog Posts</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
+{% extends 'base.html' %}
 
-    <!-- Navbar -->
-    <nav class="bg-blue-600 p-4 text-white flex justify-between">
-        <div>
-            <h1 class="text-3xl font-bold">AI Blog Generator</h1>
-        </div>
-        <div>
-            <a href="#" class="text-white hover:underline">Logout</a>
-            <a href="#" class="text-white hover:underline">SignUp</a>
-        </div>
-    </nav>
+{% block content %}
 
 <body class="bg-grey-100 font-sans antailiased">
     
@@ -44,9 +28,4 @@
         </div>
     </div>
 
-<footer class="text-center p-4 text-black mt-6">
-    Footer here
-</footer>
-
-</body>
-</html>
+{% endblock %}
