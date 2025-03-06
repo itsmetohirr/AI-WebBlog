@@ -1,11 +1,11 @@
+import json
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-import json
 from pytube import YouTube
-from time import sleep
+
 
 from .forms import CustomUserCreationForm
 from .functions import get_transcript, blog_from_transcript

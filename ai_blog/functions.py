@@ -46,7 +46,8 @@ def blog_from_transcript(text):
                     "Based on the following transcript from a YouTube video, "
                     "write HTML content for a creative blog article. Divide the blog into proper paragraphs, "
                     "use emojis, and keep the language human. Use highly creative HTML content to make the blog engaging: "
-                    "use highlighting, headings, colors, and more. If possible, add some relevant pictures from the internet.\n\n"
+                    "Don't make it sound like a youtube video"
+                    "use highlighting, headings, colors, and more.\n\n"
                     f"Transcript:\n\n{text}\n\n"
                 ),
             },
@@ -55,4 +56,5 @@ def blog_from_transcript(text):
     )
     
     content = response.choices[0].message.content
+    print(response)
     return content
