@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class BlogPost(models.Model):
+class AI_Summary(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     youtube_title = models.CharField(max_length=300)
     youtube_link = models.URLField()

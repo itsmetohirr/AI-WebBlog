@@ -1,2 +1,5 @@
+ai_summary/migrations/*
+!ai_summary/migrations/__init__.py
+*.py[cod]
 .env
 .venv

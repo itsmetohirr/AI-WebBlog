@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import BlogPost
+from .models import AI_Summary
 
 
-admin.site.register(BlogPost)
+admin.site.register(AI_Summary)
