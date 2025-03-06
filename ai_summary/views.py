@@ -9,6 +9,7 @@ from pytube import YouTube
 
 from .forms import CustomUserCreationForm
 from .functions import get_transcript, blog_from_transcript
+from .models import BlogPost
 
 
 def home_view(request):
