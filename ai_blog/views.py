@@ -3,8 +3,12 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+import json
+from pytube import YouTube
+from time import sleep
 
 from .forms import CustomUserCreationForm
+from .functions import get_transcript, blog_from_transcript
 
 
 def home_view(request):
@@ -14,9 +18,26 @@ def home_view(request):
 @csrf_exempt
 def generate_blog(request):
     if request.method == 'POST':
-        pass
+        try:
+            data = json.loads(request.body)
+            youtube_link = data.get('link')
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid data sent'}, status=400)
+        
+        # title = youtube_title(youtube_link)
+        transcript = get_transcript(youtube_link)
+        blog_content = blog_from_transcript(transcript)
+
+        return JsonResponse({'content': blog_content})
+
     else:
-        return JsonResponse({'error': 'Invalid request method', 'status': 405})
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+
+def youtube_title(link):
+    youtube = YouTube(link)
+    title = youtube.title
+    return title
 
 
 def login_view(request):
