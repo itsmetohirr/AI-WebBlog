@@ -1,12 +1,22 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 from .forms import CustomUserCreationForm
 
 
 def home_view(request):
     return render(request, 'home.html')
+
+
+@csrf_exempt
+def generate_blog(request):
+    if request.method == 'POST':
+        pass
+    else:
+        return JsonResponse({'error': 'Invalid request method', 'status': 405})
 
 
 def login_view(request):
@@ -52,3 +62,4 @@ def logout_view(request):
     logout(request)
 
     return redirect('/')
+
