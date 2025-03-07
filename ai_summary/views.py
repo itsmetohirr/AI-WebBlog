@@ -1,4 +1,5 @@
 import json
+import re
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -37,12 +38,8 @@ def generate_blog(request):
                 content=content
             )
             new_summary.save()
-        
-        video_embed = f"""<iframe width="560" height="315" src="{youtube_link}" 
-            title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>"""
 
-        return JsonResponse({'content': content, 'video_embed': video_embed})
+        return JsonResponse({'content': content})
 
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
