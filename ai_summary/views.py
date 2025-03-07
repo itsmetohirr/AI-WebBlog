@@ -37,8 +37,12 @@ def generate_blog(request):
                 content=content
             )
             new_summary.save()
+        
+        video_embed = f"""<iframe width="560" height="315" src="{youtube_link}" 
+            title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>"""
 
-        return JsonResponse({'content': content})
+        return JsonResponse({'content': content, 'video_embed': video_embed})
 
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
@@ -94,3 +98,11 @@ def logout_view(request):
 
     return redirect('/')
 
+
+def blog_list(request):
+    all_articles = AI_Summary.objects.get()
+
+
+    context = {'articles': all_articles}
+
+    return render(request, 'all-blogs.html', context)

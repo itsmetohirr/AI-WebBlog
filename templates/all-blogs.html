@@ -12,10 +12,10 @@
              <section>
                 <h2 class="text-xl font-semibold">All Blog Posts</h2>
                 <div class="space-y-4">
-
+                    {% for article in articles %}
                     <div class="border border-gray-300 p-4 rounded">
-                        <h3 class="text-lg font-semibold">Blog Post title 1</h3>
-                        <p>This is the body of the blog.</p>
+                        <h3 class="text-lg font-semibold">{{ article.youtube_title }}</h3>
+                        <p>{{ article.content }}</p>
                     </div>
 
                     <div class="border border-gray-300 p-4 rounded">

@@ -59,7 +59,7 @@ def summarize_transcript(text):
             {
                 "role": "user",
                 "content": (
-                    "Based on the following transcript from a YouTube video, create a highly creative html content that summarizes the video. Use emojis, highlights, headings, different fonts and more to keep it interesting, divide the content into paragaphs for better readablity."
+                    "Based on the following transcript from a YouTube video, create a highly creative embedable html <iframe> content that summarizes the video. Use emojis, highlights, headings, different fonts and more to keep it interesting, divide the content into paragaphs for better readablity."
                     f"Transcript:\n\n{text}\n\n"
                 ),
             },
