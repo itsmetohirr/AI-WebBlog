@@ -4,35 +4,23 @@ import re
 import dotenv
 from openai import OpenAI
 from supadata import Supadata
-# from youtube_transcript_api import YouTubeTranscriptApi
-# from youtube_transcript_api.formatters import TextFormatter
+import googleapiclient.discovery as google
 
 dotenv.load_dotenv()
 
-# def get_transcript(url):
-#     """
-#     Extracts the video ID from a YouTube URL and fetches its transcript.
-#     Args:
-#         url (str): The YouTube video URL.
-#     Returns:
-#         str: The formatted transcript as plain text.
-#     """
-#     pattern = r'(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/|.*[?&]v=)|youtu\.be\/)([\w-]{11})'
-#     video_id = re.search(pattern, url).group(1)
 
-#     transcript = YouTubeTranscriptApi.get_transcript(video_id)
-#     formatter = TextFormatter()
-#     text = formatter.format_transcript(transcript)
+def url_to_id(url):
+    pattern = r'(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/|.*[?&]v=)|youtu\.be\/)([\w-]{11})'
+    video_id = re.search(pattern, url).group(1)
 
-#     return text
+    return video_id
 
 
 def get_transcript(url):
     api_key = os.getenv('SUPADATA_API_KEY')
     supadata = Supadata(api_key=api_key)
 
-    pattern = r'(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/|.*[?&]v=)|youtu\.be\/)([\w-]{11})'
-    video_id = re.search(pattern, url).group(1)
+    video_id = url_to_id(url)
 
     text_transcript = supadata.youtube.transcript(
         video_id=video_id,
@@ -43,23 +31,16 @@ def get_transcript(url):
 
 
 def summarize_transcript(text):
-    """
-    Generates a creative HTML blog content based on a given transcript using OpenAI.
-    Args:
-        text (str): The transcript text.
-    Returns:
-        str: The generated HTML content for the blog.
-    """
     client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
     
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4o",
         messages=[
             {"role": "developer", "content": "You are a blog post writer."},
             {
                 "role": "user",
                 "content": (
-                    "Based on the following transcript from a YouTube video, create a highly creative embedable html <iframe> content that summarizes the video. Use emojis, highlights, headings, different fonts and more to keep it interesting, divide the content into paragaphs for better readablity."
+                    "Based on the following transcript from a YouTube video, create a highly creative html iframe content that summarizes the video. Make it like <iframe srcdoc='(html content)' style='width: 100%; height: 100%; border: none;'></iframe>. Dont use apostrophe (') to avoid string misfunction. Use emojis, headings, different fonts and more to keep it interesting, divide the content into paragaphs for better readablity. Remove '''html in the beginning. Give me only the content"
                     f"Transcript:\n\n{text}\n\n"
                 ),
             },
@@ -68,11 +49,21 @@ def summarize_transcript(text):
     )
     
     content = response.choices[0].message.content
+    print(content)
     return content
 
 
-# video_url = 'https://youtu.be/-qjE8JkIVoQ?si=bRiQdFq5q36yWuPk'
+def get_video_title(url):
+    DEV_KEY = os.getenv('GOOGLE_API_KEY')
+    youtube = google.build('youtube', 'v3', developerKey=DEV_KEY)
 
-# transcript = get_transcript(video_url)
-# print(transcript)
-# print(summarize_transcript(transcript))
+
+    response = youtube.videos().list(part='snippet', id=url_to_id(url)).execute()
+
+    if 'items' in response and len(response['items']) > 0:
+        video_title = response['items'][0]['snippet']['title']
+        return video_title
+    else:
+        return 'Video not found'
+
+print(get_video_title('https://youtu.be/-qjE8JkIVoQ?si=1gZ-zeQo1zZlduPt'))

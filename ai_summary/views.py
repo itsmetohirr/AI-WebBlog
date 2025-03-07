@@ -9,7 +9,7 @@ from pytube import YouTube
 
 
 from .forms import CustomUserCreationForm
-from .functions import get_transcript, summarize_transcript
+from .functions import get_transcript, summarize_transcript, get_video_title
 from .models import AI_Summary
 
 
@@ -26,14 +26,14 @@ def generate_blog(request):
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid data sent'}, status=400)
         
-        # title = youtube_title(youtube_link)
+        title = get_video_title(youtube_link)
         transcript = get_transcript(youtube_link)
         content = summarize_transcript(transcript)
 
         if not request.user.is_anonymous:
             new_summary = AI_Summary(
                 user=request.user,
-                youtube_title='',
+                youtube_title=title,
                 youtube_link=youtube_link,
                 content=content
             )
@@ -43,12 +43,6 @@ def generate_blog(request):
 
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
-
-
-def youtube_title(link):
-    youtube = YouTube(link)
-    title = youtube.title
-    return title
 
 
 def login_view(request):
