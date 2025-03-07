@@ -8,7 +8,7 @@ from pytube import YouTube
 
 
 from .forms import CustomUserCreationForm
-from .functions import get_transcript, blog_from_transcript
+from .functions import get_transcript, summarize_transcript
 from .models import AI_Summary
 
 
@@ -27,9 +27,18 @@ def generate_blog(request):
         
         # title = youtube_title(youtube_link)
         transcript = get_transcript(youtube_link)
-        blog_content = blog_from_transcript(transcript)
+        content = summarize_transcript(transcript)
 
-        return JsonResponse({'content': blog_content})
+        if not request.user.is_anonymous:
+            new_summary = AI_Summary(
+                user=request.user,
+                youtube_title='',
+                youtube_link=youtube_link,
+                content=content
+            )
+            new_summary.save()
+
+        return JsonResponse({'content': content})
 
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)

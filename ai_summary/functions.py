@@ -3,30 +3,46 @@ import re
 
 import dotenv
 from openai import OpenAI
-from youtube_transcript_api import YouTubeTranscriptApi
-from youtube_transcript_api.formatters import TextFormatter
+from supadata import Supadata
+# from youtube_transcript_api import YouTubeTranscriptApi
+# from youtube_transcript_api.formatters import TextFormatter
 
 dotenv.load_dotenv()
 
+# def get_transcript(url):
+#     """
+#     Extracts the video ID from a YouTube URL and fetches its transcript.
+#     Args:
+#         url (str): The YouTube video URL.
+#     Returns:
+#         str: The formatted transcript as plain text.
+#     """
+#     pattern = r'(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/|.*[?&]v=)|youtu\.be\/)([\w-]{11})'
+#     video_id = re.search(pattern, url).group(1)
+
+#     transcript = YouTubeTranscriptApi.get_transcript(video_id)
+#     formatter = TextFormatter()
+#     text = formatter.format_transcript(transcript)
+
+#     return text
+
+
 def get_transcript(url):
-    """
-    Extracts the video ID from a YouTube URL and fetches its transcript.
-    Args:
-        url (str): The YouTube video URL.
-    Returns:
-        str: The formatted transcript as plain text.
-    """
+    api_key = os.getenv('SUPADATA_API_KEY')
+    supadata = Supadata(api_key=api_key)
+
     pattern = r'(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/|.*[?&]v=)|youtu\.be\/)([\w-]{11})'
     video_id = re.search(pattern, url).group(1)
 
-    transcript = YouTubeTranscriptApi.get_transcript(video_id)
-    formatter = TextFormatter()
-    text = formatter.format_transcript(transcript)
+    text_transcript = supadata.youtube.transcript(
+        video_id=video_id,
+        text=True
+    )
 
-    return text
+    return text_transcript.content
 
 
-def blog_from_transcript(text):
+def summarize_transcript(text):
     """
     Generates a creative HTML blog content based on a given transcript using OpenAI.
     Args:
@@ -43,11 +59,7 @@ def blog_from_transcript(text):
             {
                 "role": "user",
                 "content": (
-                    "Based on the following transcript from a YouTube video, "
-                    "write HTML content for a creative blog article. Divide the blog into proper paragraphs, "
-                    "use emojis, and keep the language human. Use highly creative HTML content to make the blog engaging: "
-                    "Don't make it sound like a youtube video"
-                    "use highlighting, headings, colors, and more.\n\n"
+                    "Based on the following transcript from a YouTube video, create a highly creative html content that summarizes the video. Use emojis, highlights, headings, different fonts and more to keep it interesting, divide the content into paragaphs for better readablity."
                     f"Transcript:\n\n{text}\n\n"
                 ),
             },
@@ -56,5 +68,11 @@ def blog_from_transcript(text):
     )
     
     content = response.choices[0].message.content
-    print(response)
     return content
+
+
+# video_url = 'https://youtu.be/-qjE8JkIVoQ?si=bRiQdFq5q36yWuPk'
+
+# transcript = get_transcript(video_url)
+# print(transcript)
+# print(summarize_transcript(transcript))
