@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from pytube import YouTube
 
 
@@ -91,9 +91,9 @@ def logout_view(request):
 
 
 def blog_list(request):
-    all_articles = AI_Summary.objects.get()
 
-
-    context = {'articles': all_articles}
-
-    return render(request, 'all-blogs.html', context)
+    if request.user.is_authenticated:
+        all_articles = AI_Summary.objects.filter(user=request.user)
+        return render(request, 'all-blogs.html', {'articles': all_articles})
+    else:
+        return HttpResponse('login to save your articles')

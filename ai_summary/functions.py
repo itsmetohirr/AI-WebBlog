@@ -40,7 +40,7 @@ def summarize_transcript(text):
             {
                 "role": "user",
                 "content": (
-                    "Based on the following transcript from a YouTube video, create a highly creative html iframe content that summarizes the video. Make it like <iframe srcdoc='(html content)' style='width: 100%; height: 100%; border: none;'></iframe>. Dont use apostrophe (') to avoid string misfunction. Use emojis, headings, different fonts and more to keep it interesting, divide the content into paragaphs for better readablity. Remove '''html in the beginning. Give me only the content"
+                    "Based on the following transcript from a YouTube video, create a highly creative html iframe content that summarizes the video. Make it like <iframe srcdoc='(html content)' style='width: 100%; height: 90%; border: none;'></iframe>. Dont use apostrophe (') to avoid string misfunction. Use emojis, headings, different fonts and more to keep it interesting, divide the content into paragaphs for better readablity. Remove '''html in the beginning. Give me only the content"
                     f"Transcript:\n\n{text}\n\n"
                 ),
             },

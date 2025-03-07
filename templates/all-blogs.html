@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<body class="bg-grey-100 font-sans antailiased">
     
     <!-- Main Content Container -->
 
@@ -15,13 +13,12 @@
                     {% for article in articles %}
                     <div class="border border-gray-300 p-4 rounded">
                         <h3 class="text-lg font-semibold">{{ article.youtube_title }}</h3>
-                        <p>{{ article.content }}</p>
-                    </div>
+                        <div style="width: 100%; height: 500px;" id="blogContent" class="mt-2 text-gray-700 space-y-70">
+                    {{article.content | safe}}
 
-                    <div class="border border-gray-300 p-4 rounded">
-                        <h3 class="text-lg font-semibold">Blog Post title 2</h3>
-                        <p>This is the body of the blog.</p>
+                </div>
                     </div>
+                    {% endfor %}
 
                 </div>
              </section>
