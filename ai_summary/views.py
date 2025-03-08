@@ -16,6 +16,11 @@ from .models import AI_Summary
 def home_view(request):
     return render(request, 'home.html')
 
+def blog_details(request, pk):
+    article_detail = AI_Summary.objects.get(id=pk)
+    if request.user == article_detail.user:
+        return render(request, 'blog-details.html', {'blog_detail': article_detail})
+    
 
 @csrf_exempt
 def generate_blog(request):

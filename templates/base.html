@@ -62,6 +62,7 @@
         {% if request.user.is_authenticated %}
         <div>
             Welcome <a href="#" class="hover:underline">{{ request.user }}</a>
+            <a href="{% url 'blog-list' %}" class="p-4 hover:underline">Saved Articles</a>
             <a href="{% url 'logout' %}" class="text-white p-4 hover:underline">Logout</a>
         </div>
         {% else %}

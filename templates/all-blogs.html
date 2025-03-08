@@ -5,18 +5,20 @@
     <!-- Main Content Container -->
 
     <div class="container mx-auto mt-10 px-4 sm:px-0">
-        <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
+        <div class="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-md">
             <!-- Blog posts section -->
              <section>
-                <h2 class="text-xl font-semibold">All Blog Posts</h2>
-                <div class="space-y-4">
-                    {% for article in articles %}
+                <h1 class="text-4xl font-semibold text-center">All Blog Articles</h1>
+                <br>
+                <div class="space-y-8">
+                    {% for article in articles reversed %}
                     <div class="border border-gray-300 p-4 rounded">
-                        <h3 class="text-lg font-semibold">{{ article.youtube_title }}</h3>
+                        <a href="{% url 'blog-details' article.id %}"><h3 class="text-lg font-semibold">{{ article.youtube_title }}</h3></a>
                         <div style="width: 100%; height: 500px;" id="blogContent" class="mt-2 text-gray-700 space-y-70">
                     {{article.content | safe}}
-
                 </div>
+                <br>
+                <a href="{{ article.youtube_link }}" target="_blank" class="text-blue-700 p-4 hover:underline">{{ article.youtube_link }}</a>
                     </div>
                     {% endfor %}
 
