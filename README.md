@@ -1,58 +1,50 @@
-🎬 YouTube Summarizer 📚
+# SumAI
 
-Ever found yourself staring at a 2-hour YouTube video, wishing you could absorb all the important bits in just a few minutes? Say no more! Introducing YouTube Summarizer, your personal TL;DR generator for videos.
+SumAI is a powerful tool that takes a YouTube video link and generates a concise and accurate summary of its content using advanced natural language processing techniques. Whether you're looking to save time or quickly grasp the key points of a video, SumAI has got you covered!
 
-🚀 What Does It Do?
+## 🚀 Features
 
-Just provide a YouTube link, and voilà! The app will:
+- 🎥 Accepts any YouTube video link.
+- 🧠 Uses OpenAI to analyze and summarize the video content.
+- 📄 Provides a text-based summary that is easy to read and understand.
+- ⏱️ Saves time by condensing long videos into digestible summaries.
 
-Fetch the video’s content.
+## 🛠️ Installation
 
-Transcribe and analyze it.
+1. Clone the repository:
 
-Generate a concise and clear summary.
+```bash
+git clone https://github.com/yourusername/sumai.git
+cd sumai
+```
 
-🌟 Key Features
+2. Install the required dependencies:
 
-Fast Summaries: Get the gist of long videos in seconds.
-
-Accurate Transcriptions: Powered by state-of-the-art technology.
-
-Easy to Use: Just paste a link and let the magic happen!
-
-🛠️ How to Use
-
-Clone the repo:
-
-git clone https://github.com/yourusername/youtube-summarizer.git
-
-Install the dependencies:
-
-cd youtube-summarizer
+```bash
 pip install -r requirements.txt
+```
 
-Run the app:
+3. Set up your environment variables:
 
-python app.py
+```bash
+cp .env.example .env
+```
 
-Paste your YouTube link and get your summary!
+Add your API keys and configuration details to the `.env` file.
 
-📦 Technologies Used
+## 🚦 Usage
 
-Python 🐍
+To initialize Django project run:
 
-YouTube API 📺
+```bash
+./manage.py runserver
+```
 
-Transcription Service 🎧
+You will get a summarized output of the video's content.
 
-Summarization Algorithm 🧠
+## 🧰 Technologies Used
 
-🤝 Contributing
-
-Feel free to fork the repo, make some changes, and create a pull request. All contributions are welcome!
-
-📄 License
-
-This project is licensed under the MIT License.
-
-Happy Summarizing! ✨
+- **Python**: Core programming language
+- **SupaData API**: To fetch video data
+- **OpenAI API (gpt-4o)**: To generate summaries
+- **Django**: (Optional) For building a web interface
